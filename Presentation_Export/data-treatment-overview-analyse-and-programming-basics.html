@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 2 Data treatment, overview, analyse and programming basics | GEO77_R_Introduction</title>
+  <meta name="description" content="An introduction to R for the GEO77 course, 2022 Wintersemmester" />
+  <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 2 Data treatment, overview, analyse and programming basics | GEO77_R_Introduction" />
+  <meta property="og:type" content="book" />
+  <meta property="og:image" content="/images/cover.png" />
+  <meta property="og:description" content="An introduction to R for the GEO77 course, 2022 Wintersemmester" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 2 Data treatment, overview, analyse and programming basics | GEO77_R_Introduction" />
+  
+  <meta name="twitter:description" content="An introduction to R for the GEO77 course, 2022 Wintersemmester" />
+  <meta name="twitter:image" content="/images/cover.png" />
+
+<meta name="author" content="Mathias Bellat, Nicolas Riveràs Munoz" />
+
+
+<meta name="date" content="2022-11-21" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="r-introduction-course.html"/>
+
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<link href="libs/vembedr-0.1.5/css/vembedr.css" rel="stylesheet" />
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">A Minimal Book Example</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
+<li class="chapter" data-level="1" data-path="r-introduction-course.html"><a href="r-introduction-course.html"><i class="fa fa-check"></i><b>1</b> R Introduction Course</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="r-introduction-course.html"><a href="r-introduction-course.html#general-introduction"><i class="fa fa-check"></i><b>1.1</b> General introduction</a>
+<ul>
+<li class="chapter" data-level="1.1.1" data-path="r-introduction-course.html"><a href="r-introduction-course.html#short-history-and-philosophy-of-r"><i class="fa fa-check"></i><b>1.1.1</b> Short history and philosophy of R</a></li>
+<li class="chapter" data-level="1.1.2" data-path="r-introduction-course.html"><a href="r-introduction-course.html#why-r"><i class="fa fa-check"></i><b>1.1.2</b> Why R?</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="r-introduction-course.html"><a href="r-introduction-course.html#resources"><i class="fa fa-check"></i><b>1.2</b> Resources</a></li>
+<li class="chapter" data-level="1.3" data-path="r-introduction-course.html"><a href="r-introduction-course.html#installing-r-and-dependencies"><i class="fa fa-check"></i><b>1.3</b> Installing R and dependencies</a>
+<ul>
+<li class="chapter" data-level="1.3.1" data-path="r-introduction-course.html"><a href="r-introduction-course.html#r-and-rstudio"><i class="fa fa-check"></i><b>1.3.1</b> R and Rstudio</a></li>
+<li class="chapter" data-level="1.3.2" data-path="r-introduction-course.html"><a href="r-introduction-course.html#r-packages"><i class="fa fa-check"></i><b>1.3.2</b> R Packages</a></li>
+</ul></li>
+<li class="chapter" data-level="1.4" data-path="r-introduction-course.html"><a href="r-introduction-course.html#first-overview-of-r"><i class="fa fa-check"></i><b>1.4</b> First overview of R</a>
+<ul>
+<li class="chapter" data-level="1.4.1" data-path="r-introduction-course.html"><a href="r-introduction-course.html#basic-commands"><i class="fa fa-check"></i><b>1.4.1</b> Basic commands</a></li>
+<li class="chapter" data-level="1.4.2" data-path="r-introduction-course.html"><a href="r-introduction-course.html#setting-variables"><i class="fa fa-check"></i><b>1.4.2</b> Setting variables</a></li>
+</ul></li>
+<li class="chapter" data-level="1.5" data-path="r-introduction-course.html"><a href="r-introduction-course.html#REnvironment"><i class="fa fa-check"></i><b>1.5</b> RStudio Environment</a>
+<ul>
+<li class="chapter" data-level="1.5.1" data-path="r-introduction-course.html"><a href="r-introduction-course.html#project"><i class="fa fa-check"></i><b>1.5.1</b> Project</a></li>
+</ul></li>
+<li class="chapter" data-level="1.6" data-path="r-introduction-course.html"><a href="r-introduction-course.html#exercices"><i class="fa fa-check"></i><b>1.6</b> Exercices</a></li>
+<li class="chapter" data-level="1.7" data-path="r-introduction-course.html"><a href="r-introduction-course.html#additionnal-ressources"><i class="fa fa-check"></i><b>1.7</b> Additionnal Ressources</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="data-treatment-overview-analyse-and-programming-basics.html"><a href="data-treatment-overview-analyse-and-programming-basics.html"><i class="fa fa-check"></i><b>2</b> Data treatment, overview, analyse and programming basics</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="data-treatment-overview-analyse-and-programming-basics.html"><a href="data-treatment-overview-analyse-and-programming-basics.html#data-management"><i class="fa fa-check"></i><b>2.1</b> Data management</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="data-treatment-overview-analyse-and-programming-basics.html"><a href="data-treatment-overview-analyse-and-programming-basics.html#load-data"><i class="fa fa-check"></i><b>2.1.1</b> Load data</a></li>
+<li class="chapter" data-level="2.1.2" data-path="data-treatment-overview-analyse-and-programming-basics.html"><a href="data-treatment-overview-analyse-and-programming-basics.html#overview-of-the-data"><i class="fa fa-check"></i><b>2.1.2</b> Overview of the data</a></li>
+<li class="chapter" data-level="2.1.3" data-path="data-treatment-overview-analyse-and-programming-basics.html"><a href="data-treatment-overview-analyse-and-programming-basics.html#select-data"><i class="fa fa-check"></i><b>2.1.3</b> Select data</a></li>
+<li class="chapter" data-level="2.1.4" data-path="data-treatment-overview-analyse-and-programming-basics.html"><a href="data-treatment-overview-analyse-and-programming-basics.html#remove-or-add-data"><i class="fa fa-check"></i><b>2.1.4</b> Remove or add data</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="data-treatment-overview-analyse-and-programming-basics.html"><a href="data-treatment-overview-analyse-and-programming-basics.html#vector-operation"><i class="fa fa-check"></i><b>2.2</b> Vector operation</a></li>
+<li class="chapter" data-level="2.3" data-path="data-treatment-overview-analyse-and-programming-basics.html"><a href="data-treatment-overview-analyse-and-programming-basics.html#export-your-data"><i class="fa fa-check"></i><b>2.3</b> Export your data</a></li>
+<li class="chapter" data-level="2.4" data-path="data-treatment-overview-analyse-and-programming-basics.html"><a href="data-treatment-overview-analyse-and-programming-basics.html#exercices-1"><i class="fa fa-check"></i><b>2.4</b> Exercices</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">GEO77_R_Introduction</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="data-treatment-overview-analyse-and-programming-basics" class="section level1 hasAnchor" number="2">
+<h1><span class="header-section-number">Chapter 2</span> Data treatment, overview, analyse and programming basics<a href="data-treatment-overview-analyse-and-programming-basics.html#data-treatment-overview-analyse-and-programming-basics" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="data-management" class="section level2 hasAnchor" number="2.1">
+<h2><span class="header-section-number">2.1</span> Data management<a href="data-treatment-overview-analyse-and-programming-basics.html#data-management" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>In this part, we will see how to import data sets of various natures, clean them, organised them and show the essential info about them. These treatments will be possible with additional packages <em>dplyr</em> and <em>tidyverse</em>.</p>
+<div id="load-data" class="section level3 hasAnchor" number="2.1.1">
+<h3><span class="header-section-number">2.1.1</span> Load data<a href="data-treatment-overview-analyse-and-programming-basics.html#load-data" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>If importing data seems simple in other software it can be more tricky under R. We will see here how to import more common data such as .txt, .csv or .excel. For the raster and shapefile data that we might use later see.</p>
+<div class="infobox caution">
+<p><strong>Data cleaning</strong></p>
+<p>R is a really powerful tool and you can perform any transformation, cleaning or import. <strong>BUT</strong>, R is time-consuming, even for senior users, for any kind of treatment. For beginners, it might take hours to find a solution to prepare your data set as wanted. Therefore, we will advise you to always prepare your data before in more “user friendly” software as <em>Excel</em> or <em>Open office</em> solution.</p>
+</div>
+<p><strong>Included data and folder scanning </strong></p>
+<p>First, you can load data already included in the R environment and different packages. To do so you can check all data available with <code>data()</code> and then call them with <code>data(name)</code> and the data set will be loaded.</p>
+<p>If the Rstudio IDE with the Files windows give you an overview of your project folder and files you can do it manually via <code>list.files()</code> and even add the parameter <code>path = "foldername"</code> or <code>pattern = "\\.filetype"</code> to precise the folder location or the type of data you want to look at.</p>
+<p><strong>.txt, .csv and .xlsx files</strong></p>
+<p>For reading a .txt file saved in a delimited format (“,”, “;”, TAB …) you can use the <code>read.delim("filename")</code> code with this additional parameters <code>header = TRUE or FALSE</code> if you have header. <code>sep = "x"</code> To choose your delimiter in you file, <em>x</em> can be <code>\t</code> for tab, <em>,</em> for comma or <em>;</em> for semicolon. You can also set your decimal separation with <code>dec = "x"</code>.</p>
+<p>For reading a .csv file you will use the <code>read.table("filename")</code>which is quite similar from <code>read.delim</code>. You have some other additional parameters such as <code>na.strings = "NA"</code> choosing what to put in the row with NA value (We strongly advise leaving it on NA). <code>skip = n</code>can be used to skip a <em>n</em> number of lines before reading the data.</p>
+<p>And finally the .xlsx can be read <em>via</em> the <code>read.xlsx</code> code from the <em>openxlsx</em> package. It allows you to select one specific sheet in the file with the name of the sheet in the second position after the name of the file as <code>read.xlsx("filename", "sheetname or sheetindex")</code>. there is some change in the structure of additional parameters as seen before. <code>startRow = n</code> defines the line where you begin to read the data, and <code>sep.names = ""</code> is for specifying the delimiter characters.</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb22-1"><a href="data-treatment-overview-analyse-and-programming-basics.html#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="at">&gt;data(iris)</span></span>
+<span id="cb22-2"><a href="data-treatment-overview-analyse-and-programming-basics.html#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-3"><a href="data-treatment-overview-analyse-and-programming-basics.html#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; sample_data &lt;- read.delim(&quot;./Data/LUCAS-SOIL-2018.txt&quot;, header = TRUE, sep = &quot;,&quot;)</span></span>
+<span id="cb22-4"><a href="data-treatment-overview-analyse-and-programming-basics.html#cb22-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-5"><a href="data-treatment-overview-analyse-and-programming-basics.html#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; sample_loc &lt;- read.table(&quot;./Data/Soil_sample_location.csv&quot;, header = TRUE, sep = &quot;;&quot;)</span></span>
+<span id="cb22-6"><a href="data-treatment-overview-analyse-and-programming-basics.html#cb22-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-7"><a href="data-treatment-overview-analyse-and-programming-basics.html#cb22-7" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; ls()</span></span>
+<span id="cb22-8"><a href="data-treatment-overview-analyse-and-programming-basics.html#cb22-8" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">1</span><span class="co">]</span><span class="at"> &quot;iris&quot; &quot;sample_data&quot; &quot;sample_loc&quot;</span></span></code></pre></div>
+</div>
+<div id="overview-of-the-data" class="section level3 hasAnchor" number="2.1.2">
+<h3><span class="header-section-number">2.1.2</span> Overview of the data<a href="data-treatment-overview-analyse-and-programming-basics.html#overview-of-the-data" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>First, we will load our data that we will use during the class session within <em>palmerpenguins</em> packages. To load the data make <code>install.package("palmerpenguis")</code> then load the package with <code>library(palmerpenguis)</code> and load the data with <code>data(penguins)</code>.</p>
+<p>You have 6 essential commands for having an overview of your data set :</p>
+<ol style="list-style-type: decimal">
+<li><p>The most important is <code>str()</code> it will give you the class of the object and also its vectors with some of their data.</p></li>
+<li><p>The <code>head()</code> command will give you the columns names and the first lines of the data set.</p></li>
+<li><p>The <code>tail()</code> command will give you the columns names and the last lines of the data set.</p></li>
+<li><p>The <code>ncol()</code> command will give you the number of columns.</p></li>
+<li><p>The <code>nrow()</code> command will give you the number of rows in the data set.</p></li>
+<li><p>The <code>summary()</code> command will give you the basic statistical information about your data (mean, median…).</p></li>
+</ol>
+</div>
+<div id="select-data" class="section level3 hasAnchor" number="2.1.3">
+<h3><span class="header-section-number">2.1.3</span> Select data<a href="data-treatment-overview-analyse-and-programming-basics.html#select-data" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>You can select your data by column in two ways :</p>
+<ol style="list-style-type: decimal">
+<li><p>By columns position <code>df[n1]</code> and if you want to select more <code>df[c(n1, n2 ...)]</code>.</p></li>
+<li><p>By columns name <code>df["name"]</code> and if you want to select more <code>df[c("name1", "name2" ...)]</code>.</p></li>
+</ol>
+<p>If you forget the <code>c()</code> it will give a specific row and column number.</p>
+<div class="infobox caution">
+<p><strong>List and data frame selection</strong></p>
+<p>For a list, you will need to put two <em>[[]]</em> for selection. For data frame, a better way for selecting a specific column is by using <code>df$name</code> command.</p>
+</div>
+<p>You can also select a specific row with <strong>$</strong> as in <code>df[n1,]</code> and <code>df[c(n1,n2,...),]</code> for multiple selections.</p>
+</div>
+<div id="remove-or-add-data" class="section level3 hasAnchor" number="2.1.4">
+<h3><span class="header-section-number">2.1.4</span> Remove or add data<a href="data-treatment-overview-analyse-and-programming-basics.html#remove-or-add-data" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>If you want to remove data from your data set you can either filter (see later) or just remove an entire row or column.</p>
+<p>For removing columns <code>df[,-c(x1, x2...)]</code> and for removing rows <code>df[-c(x1, x2...),]</code>. If you want to remove by name it is more complicated you have to use <code>df[ , ! names(df) %in% c("name1", "name2")]</code> or the <code>subset(df, select = - c("name1", "name2"))</code>. You have also a more easy solution with the <em>dplyr</em> package.</p>
+<p>If you want to add new data to your data set you have two different ways :</p>
+<ol style="list-style-type: decimal">
+<li><p>With the classical R function <code>rbind(df1, df2)</code> to add rows to your data and <code>cbind(df1, df2)</code> for adding columns. But be careful with this method you can also combine data sets with the same amount of columns for <code>rbind()</code>and rows for <code>cbind()</code> otherwise it will display an error message.</p></li>
+<li><p>The second way is more powerful, it is the <code>merge(df1, df2, by =)</code> function. The <code>by =</code> variable will be your columns name or if you want merge others columns then put the value <code>by = "row.names"</code>. Then it will depend, if you want to keep all your data even the one with no measurement, you will have to add the parameter <code>all = TRUE</code>. Otherwise, if you want a cross result in order to already filter your data, you can leave it without this parameter (default is FALSE).</p></li>
+</ol>
+<p><strong>NAs values</strong></p>
+<p>Another important point is the <em>NAs</em> values which are missing values (<strong>Very very common !</strong>). You can spot them with <code>is.na(df)</code> which give you a list of binary answer, true and false to the question “is there a missing value inside this data set?”. You can also see how many NAs you have with the command <code>sum(is.na(df) == TRUE)</code>. To treat this missing value you have two solutions. First, you can simply removed them with <code>na.omit(df)</code> but it will remove the related rows. Another solution that can be really useful is to replace this NAs values with a specific value. You can use this line of code <code>df[is.na(df)] = x</code> where <em>x</em> is a variable of the class of the column, it can be a number as <em>0, -9999</em> or a text, factor… You can do the same with the <em>NULL</em> variables with the <code>is.null()</code> function.</p>
+<p>You can also replace any values with <code>replace(df, y, x)</code> where <em>y</em> is the operator (see below) to be replaced and <em>x</em> is the value of a replacement. For example, <code>replace(df, df &lt; 0, 0)</code> will give zero value to all negative data. You can also replace it with any kind of value (eg. mean, median…). <strong>Careful</strong> for replacing a <em>NAs</em> value by the mean or any calculation on the variable column, you will need to remove and put aside the <em>NAs</em> from this column when doing it. Therefore, you have to use the <code>na.rm = TRUE</code> parameter after your calculation (<code>mean(), min(), median(), max()</code>…).</p>
+</div>
+</div>
+<div id="vector-operation" class="section level2 hasAnchor" number="2.2">
+<h2><span class="header-section-number">2.2</span> Vector operation<a href="data-treatment-overview-analyse-and-programming-basics.html#vector-operation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Operators are very useful to filter or even to comparing data to each other and also for basic programming of function creation.
+Without any packages, R allows several vector operations listed below.</p>
+<table>
+<caption><span id="tab:Vector-operation">Table 2.1: </span>Operators in R.</caption>
+<thead>
+<tr class="header">
+<th align="center">Operator</th>
+<th align="center">Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">==</td>
+<td align="center">Is egal to?</td>
+</tr>
+<tr class="even">
+<td align="center">!=</td>
+<td align="center">Is not egal to?</td>
+</tr>
+<tr class="odd">
+<td align="center">&gt;</td>
+<td align="center">Grater than?</td>
+</tr>
+<tr class="even">
+<td align="center">&lt;</td>
+<td align="center">Less than?</td>
+</tr>
+<tr class="odd">
+<td align="center">&gt;=</td>
+<td align="center">Greater than or equal to?</td>
+</tr>
+<tr class="even">
+<td align="center">&lt;=</td>
+<td align="center">Less than or equal to?</td>
+</tr>
+<tr class="odd">
+<td align="center">&amp;</td>
+<td align="center">And</td>
+</tr>
+<tr class="even">
+<td align="center">|</td>
+<td align="center">Or</td>
+</tr>
+<tr class="odd">
+<td align="center">!</td>
+<td align="center">Not</td>
+</tr>
+<tr class="even">
+<td align="center">%in%</td>
+<td align="center">Is found in?</td>
+</tr>
+</tbody>
+</table>
+<p>From the Tidyverse package the “pipe” system is often used to optimize your code. Instead of filtering several time, with different data sets, you can add the code <code>%&gt;%</code> to simplify your operator.</p>
+</div>
+<div id="export-your-data" class="section level2 hasAnchor" number="2.3">
+<h2><span class="header-section-number">2.3</span> Export your data<a href="data-treatment-overview-analyse-and-programming-basics.html#export-your-data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>You can export your data set in many ways but the easiest is with the <code>write.table(df, "df.export", dec = "", sep = "", row.names = , col.names = )</code> command. You have several parameters: the first one <code>df</code> is the name of your file inside the project while the <code>"df.export"</code> is the name you want to give to your file with its extension name (.txt. and .csv are the best choices). The <code>dec = ""</code> parameter will allow you to choose your delimiter for decimals number (either <code>,</code> or <code>.</code>), the <code>sep = ""</code> parameter will give the separator of your columns (<code>;</code> or <code>,</code> or tab with <code>/t</code>) and <code>row.names =</code> and <code>col.names =</code> are true or false parameters for keeping the columns names and row names inside your export.</p>
+</div>
+<div id="exercices-1" class="section level2 hasAnchor" number="2.4">
+<h2><span class="header-section-number">2.4</span> Exercices<a href="data-treatment-overview-analyse-and-programming-basics.html#exercices-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<ol style="list-style-type: decimal">
+<li><p>Import and analyse the bodendaten_xy and bodendaten files into Rstudio.</p></li>
+<li><p>Merge the two file into bodendaten_final data frame (be careful of the missing link).</p></li>
+<li><p>Remove the columns with no values.</p></li>
+<li><p>Put the texture classification (“Bodenart[…]”) as a factor.</p></li>
+<li><p>Fill the missing and wrong values (negative) in the data set:
+By the mean (of the variable) for the missing values and the negative values of <strong>Mg</strong>.
+By zero for the others negatives values in the data set.
+By 100 the “Gu[…]” values that are over 100 (it is the texture percentage).</p></li>
+<li><p>Export the result inside a “Final_data.Rdata” and a “Final_data.csv” with tab delimiter and header names.</p></li>
+</ol>
+
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div class="csl-entry">
+Giorgi, Federico M., Carmine Ceraolo, and Daniele Mercatelli. 2022. <span>“The <span>R</span> <span>Language</span>: <span>An</span> <span>Engine</span> for <span>Bioinformatics</span> and <span>Data</span> <span>Science</span>.”</span> <em>Life</em> 12 (5): 648. <a href="https://doi.org/10.3390/life12050648">https://doi.org/10.3390/life12050648</a>.
+</div>
+<div class="csl-entry">
+Ihaka, Ross, and Robert Gentleman. 1996. <span>“R: <span>A</span> <span>Language</span> for <span>Data</span> <span>Analysis</span> and <span>Graphics</span>.”</span> <em>Journal of Computational and Graphical Statistics</em> 5 (3): 299. <a href="https://doi.org/10.2307/1390807">https://doi.org/10.2307/1390807</a>.
+</div>
+<div class="csl-entry">
+Long, J. D., and Paul Teetor. 2019. <em>R Cookbook: Proven Recipes for Data Analysis, Statistics, and Graphics</em>. Second edition. Sebastopol, CA: O’Reilly.
+</div>
+<div class="csl-entry">
+Team, R Core, W. N. Venables, and D. M. Smith. 2022. <em>An Introduction to <span>R</span>: A Programming Environment for Data Analysis and Graphics, Version 4.2.1</em>. 4th ed.
+</div>
+<div class="csl-entry">
+Tippmann, Sylvia. 2015. <span>“Programming Tools: <span>Adventures</span> with <span>R</span>.”</span> <em>Nature</em> 517 (7532): 109–10. <a href="https://doi.org/10.1038/517109a">https://doi.org/10.1038/517109a</a>.
+</div>
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="r-introduction-course.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/02-IDE.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["bookdown-demo.pdf", "bookdown-demo.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
