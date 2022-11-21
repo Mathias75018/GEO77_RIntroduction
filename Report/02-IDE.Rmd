@@ -1,0 +1,142 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
+
+# Data treatment, overview, analyse and programming basics
+
+## Data management
+
+In this part, we will see how to import data sets of various natures, clean them, organised them and show the essential info about them. These treatments will be possible with additional packages *dplyr* and *tidyverse*.
+
+### Load data
+
+If importing data seems simple in other software it can be more tricky under R. We will see here how to import more common data such as .txt, .csv or .excel. For the raster and shapefile data that we might use later see.
+
+::: {.infobox .caution data-latex="{caution}"}
+**Data cleaning**
+
+R is a really powerful tool and you can perform any transformation, cleaning or import. **BUT**, R is time-consuming, even for senior users, for any kind of treatment. For beginners, it might take hours to find a solution to prepare your data set as wanted. Therefore, we will advise you to always prepare your data before in more "user friendly" software as *Excel* or *Open office* solution.
+:::
+
+**Included data and folder scanning **
+
+First, you can load data already included in the R environment and different packages. To do so you can check all data available with `data()` and then call them with `data(name)` and the data set will be loaded.
+
+If the Rstudio IDE with the Files windows give you an overview of your project folder and files you can do it manually via `list.files()` and even add the parameter `path = "foldername"` or `pattern = "\\.filetype"` to precise the folder location or the type of data you want to look at.
+
+**.txt, .csv and .xlsx files**
+
+For reading a .txt file saved in a delimited format (",", ";", TAB ...) you can use the `read.delim("filename")` code with this additional parameters `header = TRUE or FALSE` if you have header. `sep = "x"` To choose your delimiter in you file, *x* can be `\t` for tab, *,* for comma or *;* for semicolon. You can also set your decimal separation with `dec = "x"`.
+
+For reading a .csv file you will use the `read.table("filename")`which is quite similar from `read.delim`. You have some other additional parameters such as `na.strings = "NA"` choosing what to put in the row with NA value (We strongly advise leaving it on NA). `skip = n`can be used to skip a *n* number of lines before reading the data.
+
+And finally the .xlsx can be read *via* the `read.xlsx` code from the *openxlsx* package. It allows you to select one specific sheet in the file with the name of the sheet in the second position after the name of the file as `read.xlsx("filename", "sheetname or sheetindex")`. there is some change in the structure of additional parameters as seen before. `startRow = n` defines the line where you begin to read the data, and `sep.names = ""` is for specifying the delimiter characters.
+
+
+``` markdown
+>data(iris)
+
+> sample_data <- read.delim("./Data/LUCAS-SOIL-2018.txt", header = TRUE, sep = ",")
+
+> sample_loc <- read.table("./Data/Soil_sample_location.csv", header = TRUE, sep = ";")
+
+> ls()
+[1] "iris" "sample_data" "sample_loc"
+``` 
+
+### Overview of the data
+
+First, we will load our data that we will use during the class session within *palmerpenguins* packages. To load the data make `install.package("palmerpenguis")` then load the package with `library(palmerpenguis)` and load the data with `data(penguins)`.
+
+You have 6 essential commands for having an overview of your data set :
+
+1) The most important is `str()` it will give you the class of the object and also its vectors with some of their data.
+
+2) The `head()` command will give you the columns names and the first lines of the data set.
+
+3) The `tail()` command will give you the columns names and the last lines of the data set.
+
+4) The `ncol()` command will give you the number of columns.
+
+5) The `nrow()` command will give you the number of rows in the data set.
+
+6) The `summary()` command will give you the basic statistical information about your data (mean, median...).
+
+
+### Select data
+
+You can select your data by column in two ways :
+
+1) By columns position `df[n1]` and if you want to select more `df[c(n1, n2 ...)]`. 
+
+2) By columns name `df["name"]` and if you want to select more `df[c("name1", "name2" ...)]`.
+
+If you forget the `c()` it will give a specific row and column number. 
+
+::: {.infobox .caution data-latex="{caution}"}
+**List and data frame selection**
+
+For a list, you will need to put two *[[]]* for selection. For data frame, a better way for selecting a specific column is by using `df$name` command.
+:::
+
+You can also select a specific row with **$** as in `df[n1,]` and `df[c(n1,n2,...),]` for multiple selections.
+
+### Remove or add data
+
+If you want to remove data from your data set you can either filter (see later) or just remove an entire row or column.
+
+For removing columns `df[,-c(x1, x2...)]` and for removing rows `df[-c(x1, x2...),]`. If you want to remove by name it is more complicated you have to use `df[ , ! names(df) %in% c("name1", "name2")]` or the `subset(df, select = - c("name1", "name2"))`. You have also a more easy solution with the *dplyr* package.
+
+If you want to add new data to your data set you have two different ways :
+
+1) With the classical R function `rbind(df1, df2)` to add rows to your data and `cbind(df1, df2)` for adding columns. But be careful with this method you can also combine data sets with the same amount of columns for `rbind()`and rows for `cbind()` otherwise it will display an error message.
+
+2) The second way is more powerful, it is the `merge(df1, df2, by =)` function. The `by =` variable will be your columns name or if you want merge others columns then put the value `by = "row.names"`. Then it will depend, if you want to keep all your data even the one with no measurement, you will have to add the parameter `all = TRUE`. Otherwise, if you want a cross result in order to already filter your data, you can leave it without this parameter (default is FALSE).
+
+**NAs values**
+
+Another important point is the *NAs* values which are missing values (**Very very common !**). You can spot them with `is.na(df)` which give you a list of binary answer, true and false to the question "is there a missing value inside this data set?". You can also see how many NAs you have with the command `sum(is.na(df) == TRUE)`. To treat this missing value you have two solutions. First, you can simply removed them with `na.omit(df)` but it will remove the related rows. Another solution that can be really useful is to replace this NAs values with a specific value. You can use this line of code `df[is.na(df)] = x` where *x* is a variable of the class of the column, it can be a number as *0, -9999* or a text, factor... You can do the same with the *NULL* variables with the `is.null()` function. 
+
+You can also replace any values with `replace(df, y, x)` where *y* is the operator (see below) to be replaced and *x* is the value of a replacement. For example, `replace(df, df < 0, 0)` will give zero value to all negative data. You can also replace it with any kind of value (eg. mean, median...). **Careful** for replacing a *NAs* value by the mean or any calculation on the variable column, you will need to remove and put aside the *NAs* from this column when doing it. Therefore, you have to use the `na.rm = TRUE` parameter after your calculation (`mean(), min(), median(), max()`...).
+
+## Vector operation
+
+Operators  are very useful to filter or even to comparing data to each other and also for basic programming of function creation.
+Without any packages, R allows several vector operations listed below.
+
+```{r Vector-operation, echo=FALSE, fig.align ="center", out.width = "75%" }
+a <- c("==", "!=", ">", "<", ">=", "<=", "&", "|", "!", "%in%")
+b <- c("Is egal to?", "Is not egal to?", "Grater than?", "Less than?", "Greater than or equal to?", "Less than or equal to?", "And", "Or", "Not", "Is found in?")
+
+operator_table <- data.frame(cbind(a,b))
+knitr::kable(operator_table, col.names = c("Operator", "Meaning"), caption = "Operators in R.", align = "c")
+```
+
+From the Tidyverse package the "pipe" system is often used to optimize your code. Instead of filtering several time, with different data sets, you can add the code `%>%` to simplify your operator. 
+
+## Export your data 
+
+You can export your data set in many ways but the easiest is with the `write.table(df, "df.export", dec = "", sep = "", row.names = , col.names = )` command. You have several parameters: the first one `df` is the name of your file inside the project while the `"df.export"` is the name you want to give to your file with its extension name (.txt. and .csv are the best choices). The `dec = ""` parameter will allow you to choose your delimiter for decimals number (either `,` or `.`), the `sep = ""` parameter will give the separator of your columns (`;` or `,` or tab with `/t`) and `row.names =` and `col.names =` are true or false parameters for keeping the columns names and row names inside your export.  
+
+## Exercices
+
+1) Import and analyse the bodendaten_xy and bodendaten files into Rstudio.
+
+2) Merge the two file into bodendaten_final data frame (be careful of the missing link).
+
+3) Remove the columns with no values.
+
+4) Put the texture classification ("Bodenart[...]") as a factor.
+
+5) Fill the missing and wrong values (negative) in the data set:
+By the mean (of the variable) for the missing values and the negative values of **Mg**.
+By zero for the others negatives values in the data set.
+By 100 the "Gu[...]" values that are over 100 (it is the texture percentage). 
+
+6) Export the result inside a "Final_data.Rdata" and a "Final_data.csv" with tab delimiter and header names.
+
+
+
+
